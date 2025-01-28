@@ -3,47 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Basique</title>
+    <title>Napol-E</title>
     <style>
-        /* Styles CSS */
+        /* Style de la page */
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f9;
-        }
-        .container {
             text-align: center;
-            padding: 20px;
-            border: 2px solid #ccc;
-            border-radius: 10px;
-            background-color: white;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
+
+        /* Conteneur principal */
+        .container {
+            background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Titre */
         h1 {
-            color: #333;
+            font-size: 3rem;
+            margin-bottom: 20px;
         }
-        p {
-            color: #555;
+
+        /* Barre de recherche */
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        a {
-            color: #007bff;
+
+        input[type="text"] {
+            width: 400px;
+            padding: 10px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            font-size: 1.2rem;
+            margin-right: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 20px;
+            background-color: #4285f4; /* Couleur Google */
+            color: white;
+            cursor: pointer;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357ae8;
+        }
+
+        /* Liens en bas de page */
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: #87ceeb;
             text-decoration: none;
         }
-        a:hover {
+
+        .footer a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Bienvenue sur ma page !</h1>
-        <p>Ceci est une page HTML basique.</p>
-        <p>Pour en savoir plus, <a href="https://www.google.com" target="_blank">clique ici</a>.</p>
+        <h1>Napol-E</h1>
+        <form action="https://www.google.com/search" method="GET">
+            <!-- Barre de recherche -->
+            <input type="text" name="q" placeholder="Recherche Google..." required>
+            <button type="submit">Rechercher</button>
+        </form>
+        <div class="footer">
+            <p>Propulsé par <a href="https://www.google.com" target="_blank">Google</a>.</p>
+        </div>
     </div>
 </body>
 </html>
