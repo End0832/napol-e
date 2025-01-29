@@ -13,11 +13,10 @@
             background-size: cover;
             color: white;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
             text-align: center;
-            flex-direction: column;
         }
 
         .container {
@@ -27,6 +26,7 @@
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
             width: 80%;
             max-width: 600px;
+            margin-top: 20px;
         }
 
         h1 {
@@ -67,67 +67,42 @@
             background-color: #357ae8;
         }
 
-        .results {
+        .iframe-container {
+            width: 90%;
+            height: 70vh;
             margin-top: 20px;
-            text-align: left;
-            width: 80%;
-            max-width: 800px;
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 15px;
             border-radius: 10px;
+            overflow: hidden;
         }
 
-        .results a {
-            color: #87ceeb;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .results a:hover {
-            text-decoration: underline;
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: rgba(0, 0, 0, 0.6);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Napol-E</h1>
-        <form id="searchForm">
-            <input type="text" id="searchInput" placeholder="Recherche Qwant..." required>
+        <form onsubmit="searchGoogle(event)">
+            <input type="text" id="searchInput" placeholder="Recherche Google..." required>
             <button type="submit">Rechercher</button>
         </form>
     </div>
 
-    <div class="results" id="results"></div>
+    <div class="iframe-container">
+        <iframe id="searchResults" src=""></iframe>
+    </div>
 
     <script>
-        document.getElementById("searchForm").addEventListener("submit", function(event) {
+        function searchGoogle(event) {
             event.preventDefault();
             let query = document.getElementById("searchInput").value;
-
-            fetch(`https://api.qwant.com/v3/search/web?q=${encodeURIComponent(query)}&count=10`)
-                .then(response => response.json())
-                .then(data => {
-                    let resultsDiv = document.getElementById("results");
-                    resultsDiv.innerHTML = "";
-
-                    if (data.data && data.data.result && data.data.result.items) {
-                        data.data.result.items.forEach(item => {
-                            let link = document.createElement("a");
-                            link.href = item.url;
-                            link.textContent = item.title;
-                            link.target = "_blank";
-                            resultsDiv.appendChild(link);
-                        });
-                    } else {
-                        resultsDiv.innerHTML = "<p style='color:red;'>Aucun résultat trouvé.</p>";
-                    }
-                })
-                .catch(error => {
-                    console.error("Erreur :", error);
-                    document.getElementById("results").innerHTML = "<p style='color:red;'>Erreur lors de la recherche.</p>";
-                });
-        });
+            let url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            document.getElementById("searchResults").src = url;
+        }
     </script>
 </body>
 </html>
