@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Napol-E</title>
     <style>
+        /* Style de la page */
         body {
             margin: 0;
             padding: 0;
@@ -13,27 +14,27 @@
             background-size: cover;
             color: white;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             height: 100vh;
             text-align: center;
         }
 
+        /* Conteneur principal */
         .container {
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
-            width: 80%;
-            max-width: 600px;
-            margin-top: 20px;
         }
 
+        /* Titre */
         h1 {
             font-size: 3rem;
             margin-bottom: 20px;
         }
 
+        /* Barre de recherche */
         form {
             display: flex;
             justify-content: center;
@@ -56,7 +57,7 @@
             font-size: 1rem;
             border: none;
             border-radius: 20px;
-            background-color: #4285f4;
+            background-color: #4285f4; /* Couleur Google */
             color: white;
             cursor: pointer;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
@@ -67,26 +68,18 @@
             background-color: #357ae8;
         }
 
-        .results-container {
+        /* Liens en bas de page */
+        .footer {
             margin-top: 20px;
-            width: 90%;
-            height: 60vh;
-            overflow-y: scroll;
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 20px;
-            border-radius: 10px;
+            font-size: 0.9rem;
         }
 
-        .result-item {
-            margin-bottom: 10px;
-        }
-
-        .result-item a {
+        .footer a {
             color: #87ceeb;
             text-decoration: none;
         }
 
-        .result-item a:hover {
+        .footer a:hover {
             text-decoration: underline;
         }
     </style>
@@ -94,39 +87,15 @@
 <body>
     <div class="container">
         <h1>Napol-E</h1>
-        <form id="searchForm">
-            <input type="text" id="searchInput" placeholder="Recherche Google..." required>
+        <form action="https://www.google.com/search" method="GET">
+            <!-- Barre de recherche -->
+            <input type="text" name="q" placeholder="Recherche Google..." required>
             <button type="submit">Rechercher</button>
         </form>
+        <div class="footer">
+            <p>Propulsé par <a href="ht
+tps://www.google.com" target="_blank">Google</a>.</p>
+        </div>
     </div>
-
-    <div class="results-container" id="resultsContainer"></div>
-
-    <script>
-        document.getElementById("searchForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            let query = document.getElementById("searchInput").value;
-            let url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    let resultsHTML = '';
-                    if (data.RelatedTopics) {
-                        data.RelatedTopics.forEach(result => {
-                            if (result.Text && result.FirstURL) {
-                                resultsHTML += `<div class="result-item"><a href="${result.FirstURL}" target="_blank">${result.Text}</a></div>`;
-                            }
-                        });
-                    } else {
-                        resultsHTML = '<p>Aucun résultat trouvé.</p>';
-                    }
-                    document.getElementById("resultsContainer").innerHTML = resultsHTML;
-                })
-                .catch(error => {
-                    document.getElementById("resultsContainer").innerHTML = '<p>Erreur de récupération des résultats.</p>';
-                });
-        });
-    </script>
 </body>
 </html>
