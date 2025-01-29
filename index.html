@@ -67,42 +67,66 @@
             background-color: #357ae8;
         }
 
-        .iframe-container {
-            width: 90%;
-            height: 70vh;
+        .results-container {
             margin-top: 20px;
+            width: 90%;
+            height: 60vh;
+            overflow-y: scroll;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
             border-radius: 10px;
-            overflow: hidden;
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: rgba(0, 0, 0, 0.6);
+        .result-item {
+            margin-bottom: 10px;
+        }
+
+        .result-item a {
+            color: #87ceeb;
+            text-decoration: none;
+        }
+
+        .result-item a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Napol-E</h1>
-        <form onsubmit="searchGoogle(event)">
+        <form id="searchForm">
             <input type="text" id="searchInput" placeholder="Recherche Google..." required>
             <button type="submit">Rechercher</button>
         </form>
     </div>
 
-    <div class="iframe-container">
-        <iframe id="searchResults" src=""></iframe>
-    </div>
+    <div class="results-container" id="resultsContainer"></div>
 
     <script>
-        function searchGoogle(event) {
+        document.getElementById("searchForm").addEventListener("submit", function(event) {
             event.preventDefault();
             let query = document.getElementById("searchInput").value;
-            let url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-            document.getElementById("searchResults").src = url;
-        }
+            let url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    let resultsHTML = '';
+                    if (data.RelatedTopics) {
+                        data.RelatedTopics.forEach(result => {
+                            if (result.Text && result.FirstURL) {
+                                resultsHTML += `<div class="result-item"><a href="${result.FirstURL}" target="_blank">${result.Text}</a></div>`;
+                            }
+                        });
+                    } else {
+                        resultsHTML = '<p>Aucun résultat trouvé.</p>';
+                    }
+                    document.getElementById("resultsContainer").innerHTML = resultsHTML;
+                })
+                .catch(error => {
+                    document.getElementById("resultsContainer").innerHTML = '<p>Erreur de récupération des résultats.</p>';
+                });
+        });
     </script>
 </body>
 </html>
